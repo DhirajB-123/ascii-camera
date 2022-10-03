@@ -24,6 +24,9 @@ function createASCII(){
         }
     }
     // console.log(characters)
+    if (characters.length > 5100){
+        console.log('over')
+    }
     text.innerHTML = characters
 }
 
@@ -58,8 +61,8 @@ function returnCharacter(brightness){
         4: '*',
         5: 'o',
         6: 'z',
-        7: '|',
-        8: '?',
+        7: '?',
+        8: '|',
         9: '+',
         10: '.'
     }
