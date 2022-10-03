@@ -16,7 +16,7 @@ function createASCII(){
     // console.log(imageData)
 
     characters = ""
-    for (let char=1; char<=8000; char++){
+    for (let char=1; char<=5000; char++){
         let pixelBrightness = averagePixels(char)
         characters += returnCharacter(pixelBrightness)
         if (char%100 ==0){
@@ -36,9 +36,9 @@ function pixelToIndices(pixel){
 
 function averagePixels(charIndex){
     let usedPixels = []
-    let shift = (((charIndex-1)%100)*5) + Math.floor((charIndex-1)/100)*2500
+    let shift = (((charIndex-1)%100)*5) + Math.floor((charIndex-1)/100)*4000
     let sum = 0
-    for (row=0; row<5; row++){
+    for (row=0; row<8; row++){
         for (i = 1; i<=5; i++){
             pixel = i+(500*row) + shift
             usedPixels.push(pixel)
@@ -46,7 +46,7 @@ function averagePixels(charIndex){
             sum += imageData[indices[0]] + imageData[indices[1]] + imageData[indices[2]]
         }
     }
-    return (Math.round(sum/(row*i*3)))
+    return (Math.round((sum)/(row*i*3)))
 }
 
 function returnCharacter(brightness){
@@ -77,4 +77,4 @@ function formatString(string, lineWidth, rows){
 
 // setTimeout(createASCII, 500)
 
-setInterval(createASCII, 40)
+setInterval(createASCII, 100)
