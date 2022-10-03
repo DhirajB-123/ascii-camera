@@ -16,10 +16,10 @@ function createASCII(){
     // console.log(imageData)
 
     characters = ""
-    for (let char=1; char<=5000; char++){
+    for (let char=1; char<=25000; char++){
         let pixelBrightness = averagePixels(char)
         characters += returnCharacter(pixelBrightness)
-        if (char%100 ==0){
+        if (char%250 ==0){
             characters += '\n'
         }
     }
@@ -39,10 +39,10 @@ function pixelToIndices(pixel){
 
 function averagePixels(charIndex){
     let usedPixels = []
-    let shift = (495 -((charIndex-1)%100)*5) + Math.floor((charIndex-1)/100)*4000
+    let shift = (498 -((charIndex-1)%250)*2) + Math.floor((charIndex-1)/250)*2000
     let sum = 0
-    for (row=0; row<8; row++){
-        for (i = 1; i<=5; i++){
+    for (row=0; row<4; row++){
+        for (i = 1; i<=2; i++){
             pixel = i+(500*row) + shift
             usedPixels.push(pixel)
             indices = pixelToIndices(pixel)
