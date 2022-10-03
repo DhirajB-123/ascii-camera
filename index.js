@@ -39,7 +39,7 @@ function pixelToIndices(pixel){
 
 function averagePixels(charIndex){
     let usedPixels = []
-    let shift = (((charIndex-1)%100)*5) + Math.floor((charIndex-1)/100)*4000
+    let shift = (495 -((charIndex-1)%100)*5) + Math.floor((charIndex-1)/100)*4000
     let sum = 0
     for (row=0; row<8; row++){
         for (i = 1; i<=5; i++){
@@ -58,9 +58,9 @@ function returnCharacter(brightness){
         1: '@',
         2: '%',
         3: '8',
-        4: '*',
-        5: 'o',
-        6: 'z',
+        4: 'o',
+        5: 'z',
+        6: '*',
         7: '?',
         8: '|',
         9: '+',
@@ -78,6 +78,5 @@ function formatString(string, lineWidth, rows){
     }
 }
 
-// setTimeout(createASCII, 500)
 
 setInterval(createASCII, 100)

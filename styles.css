@@ -6,10 +6,17 @@ canvas{
     display: none;
 }
 
+#container{
+    height: 98vh;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+
 p{
     font-weight:500;
     font-size:10px;
     font-family: monospace, monospace;
-    width: 1000px;
     white-space: pre-wrap;
+    border: 2px black solid;
 }
