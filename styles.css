@@ -1,3 +1,13 @@
 video{
     display: none;
 }
+
+canvas{
+    display: none;
+}
+
+p{
+    font-size:10px;
+    font-family: monospace, monospace;
+    width: 1000px;
+}

@@ -1,6 +1,7 @@
 let canvas = document.querySelector('#canvas')
 let ctx = canvas.getContext('2d')
 let video = document.querySelector('#video')
+let text = document.querySelector('#text')
 
 if (navigator.mediaDevices.getUserMedia){
     navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
@@ -12,15 +13,18 @@ function createASCII(){
     ctx.drawImage(video, 0, 0, 500, 400)
 
     imageData = ctx.getImageData(0,0,500,400).data
-    console.log(imageData)
+    // console.log(imageData)
 
     characters = ""
-    for (let char=1; char<=200; char++){
-        console.log(char)
+    for (let char=1; char<=8000; char++){
         let pixelBrightness = averagePixels(char)
         characters += returnCharacter(pixelBrightness)
+        if (char%100 ==0){
+            characters += '\n'
+        }
     }
-    console.log(characters)
+    // console.log(characters)
+    text.innerHTML = characters
 }
 
 function pixelToIndices(pixel){
@@ -32,10 +36,10 @@ function pixelToIndices(pixel){
 
 function averagePixels(charIndex){
     let usedPixels = []
-    let shift = (((charIndex-1)%50)*10) + Math.floor((charIndex-1)/50)*5000
+    let shift = (((charIndex-1)%100)*5) + Math.floor((charIndex-1)/100)*2500
     let sum = 0
-    for (row=0; row<10; row++){
-        for (i = 1; i<=10; i++){
+    for (row=0; row<5; row++){
+        for (i = 1; i<=5; i++){
             pixel = i+(500*row) + shift
             usedPixels.push(pixel)
             indices = pixelToIndices(pixel)
@@ -63,6 +67,14 @@ function returnCharacter(brightness){
     return brightnessToChar[adjustedBrightness]
 }
 
-setTimeout(createASCII, 500)
+function formatString(string, lineWidth, rows){
+    let output = ''
+    let length = string.length
+    for (let i = 0; i<(length/lineWidth); i++){
 
-// setInterval(createASCII, 100)
+    }
+}
+
+// setTimeout(createASCII, 500)
+
+setInterval(createASCII, 40)
