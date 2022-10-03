@@ -1,33 +1,68 @@
-console.log('here')
-
-let video = document.querySelector("#videoElement");
-let link = document.querySelector('#link')
 let canvas = document.querySelector('#canvas')
-let image
+let ctx = canvas.getContext('2d')
+let video = document.querySelector('#video')
 
-function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
+if (navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({video: true}).then(stream => {
+        video.srcObject = stream;
+    })
 }
 
-if (navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: {frameRate: {max: 24}}})
-        .then(async function (stream) {
-            await delay(100)
-            video.srcObject = stream;
-            let liveVideo = stream.getVideoTracks()[0]
-            // video.srcObject = liveVideo
-            // let image = new ImageCapture(liveVideo)
-            let i =0 
-            while (i<10){
-                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
-                url = canvas.toDataURL('image/jpeg')
-                link.href = url
-                await delay(100)
-                i++
-            }
-        })
-    .catch(function (err) {
-        console.log(err)
-        console.log("Something went wrong!");
-    });
+function createASCII(){
+    ctx.drawImage(video, 0, 0, 500, 400)
+
+    imageData = ctx.getImageData(0,0,500,400).data
+    console.log(imageData)
+
+    characters = ""
+    for (let char=1; char<=200; char++){
+        console.log(char)
+        let pixelBrightness = averagePixels(char)
+        characters += returnCharacter(pixelBrightness)
+    }
+    console.log(characters)
 }
+
+function pixelToIndices(pixel){
+    r = (pixel*4) - 4
+    b = r+1
+    g = b+1
+    return [r,g,b]
+}
+
+function averagePixels(charIndex){
+    let usedPixels = []
+    let shift = (((charIndex-1)%50)*10) + Math.floor((charIndex-1)/50)*5000
+    let sum = 0
+    for (row=0; row<10; row++){
+        for (i = 1; i<=10; i++){
+            pixel = i+(500*row) + shift
+            usedPixels.push(pixel)
+            indices = pixelToIndices(pixel)
+            sum += imageData[indices[0]] + imageData[indices[1]] + imageData[indices[2]]
+        }
+    }
+    return (Math.round(sum/(row*i*3)))
+}
+
+function returnCharacter(brightness){
+    brightnessToChar = {
+        0: '$',
+        1: '@',
+        2: '%',
+        3: '8',
+        4: '*',
+        5: 'o',
+        6: 'z',
+        7: '|',
+        8: '?',
+        9: '+',
+        10: '.'
+    }
+    adjustedBrightness = Math.floor(brightness/25.5)
+    return brightnessToChar[adjustedBrightness]
+}
+
+setTimeout(createASCII, 500)
+
+// setInterval(createASCII, 100)
